@@ -8,6 +8,10 @@ class Author(models.Model):
     birth_year = models.SmallIntegerField(verbose_name="Год рождения")
     country = models.CharField(verbose_name="Страна", max_length=2)
 
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
     def __str__(self):
         return self.full_name
 
@@ -21,6 +25,10 @@ class PublishingHouse(models.Model):
     country = models.CharField(max_length=2, verbose_name="Страна")
     works = models.NullBooleanField(verbose_name="Работает ли издательство")
 
+    class Meta:
+        verbose_name = 'Издательство'
+        verbose_name_plural = 'Издательства'
+
     def __str__(self):
         return self.name
 
@@ -30,6 +38,10 @@ class Friend(models.Model):
     birth_year = models.SmallIntegerField(verbose_name="Год рождения")
     phone = models.CharField(max_length=16, blank=True, verbose_name="Телефон")
     email = models.EmailField(blank=True, verbose_name="Email")
+
+    class Meta:
+        verbose_name = 'Друг'
+        verbose_name_plural = 'Друзья'
 
     def __str__(self):
         return self.full_name
@@ -48,8 +60,11 @@ class Book(models.Model):
     friends = models.ManyToManyField(
         Friend,
         through='WhenTook',
-        through_fields=('book', 'friend'),
     )
+
+    class Meta:
+        verbose_name = 'Книга'
+        verbose_name_plural = 'Книги'
 
     def __str__(self):
         return self.title
@@ -60,6 +75,10 @@ class WhenTook(models.Model):
     friend = models.ForeignKey(Friend, on_delete=models.CASCADE, verbose_name="Друг")
     when_took = models.DateField(verbose_name="Какого числа была взята книга")
 
+    class Meta:
+        verbose_name = 'Книга у друга'
+        verbose_name_plural = 'Книги у друзей'
+
     def __str__(self):
-        return "Книгу '{}' взял мой друг '{}', такого числа {}".format(
+        return "Книгу '{}' взял мой друг '{}', {}".format(
             self.book, self.friend, time.strftime("%d.%m.%Y", time.strptime(self.when_took.ctime())))

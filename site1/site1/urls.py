@@ -24,6 +24,6 @@ urlpatterns = [
     path('index/book_increment/', views.book_increment),
     path('index/book_decrement/', views.book_decrement),
     path('publishing-house/', views.publishing_house),
-    path('friends-list/', views.friends_list),
+    path('friends-list/', views.friends_list, name='friends_list'),
     path('', include('p_library.urls')),
 ]
