@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список друзей, что взяли книги</title>
+</head>
+<body>
+    <ul>
+		{% for whentook in my_list %}
+		    <li>{{ whentook }}</li>
+		{% endfor %}
+	</ul>
+</body>
+</html>

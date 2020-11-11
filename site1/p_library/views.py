@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-from p_library.models import Book, PublishingHouse
+from p_library.models import Book, PublishingHouse, WhenTook
 from django.shortcuts import render
 from django.shortcuts import redirect
 from p_library.models import Author
@@ -122,3 +122,13 @@ def books_authors_create_many(request):
             'book_formset': book_formset,
         }
     )
+
+
+def friends_list(request):
+    template = loader.get_template('friends_list.html')
+    my_list = WhenTook.objects.all()
+    data = {
+        "title": "Издательства и изданные ими книги",
+        "my_list": my_list,
+    }
+    return HttpResponse(template.render(data))

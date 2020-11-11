@@ -1,3 +1,5 @@
+import time
+
 from django.db import models
 
 
@@ -23,6 +25,16 @@ class PublishingHouse(models.Model):
         return self.name
 
 
+class Friend(models.Model):
+    full_name = models.TextField(verbose_name="Имя")
+    birth_year = models.SmallIntegerField(verbose_name="Год рождения")
+    phone = models.CharField(max_length=16, blank=True, verbose_name="Телефон")
+    email = models.EmailField(blank=True, verbose_name="Email")
+
+    def __str__(self):
+        return self.full_name
+
+
 class Book(models.Model):
     ISBN = models.CharField(max_length=13)
     title = models.TextField(verbose_name="Название")
@@ -33,6 +45,21 @@ class Book(models.Model):
                                 verbose_name="Издательство")
     copy_count = models.SmallIntegerField(default=1, verbose_name="Количество копий")
     price = models.FloatField(verbose_name="Стоимость")
+    friends = models.ManyToManyField(
+        Friend,
+        through='WhenTook',
+        through_fields=('book', 'friend'),
+    )
 
     def __str__(self):
         return self.title
+
+
+class WhenTook(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name="Книга")
+    friend = models.ForeignKey(Friend, on_delete=models.CASCADE, verbose_name="Друг")
+    when_took = models.DateField(verbose_name="Какого числа была взята книга")
+
+    def __str__(self):
+        return "Книгу '{}' взял мой друг '{}', такого числа {}".format(
+            self.book, self.friend, time.strftime("%d.%m.%Y", time.strptime(self.when_took.ctime())))

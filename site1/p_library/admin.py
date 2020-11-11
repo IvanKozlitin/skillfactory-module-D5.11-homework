@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (Book, Author, PublishingHouse)
+from .models import (Book, Author, PublishingHouse, WhenTook, Friend)
 
 
 @admin.register(Book)
@@ -19,3 +19,14 @@ class AuthorAdmin(admin.ModelAdmin):
 class PublishingHouseAdmin(admin.ModelAdmin):
     list_filter = ('works',)
     list_display = ('name', 'phone', 'email', 'city', 'country', 'works')
+
+
+@admin.register(Friend)
+class WhenTookAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'birth_year', 'phone', 'email')
+
+
+@admin.register(WhenTook)
+class WhenTookAdmin(admin.ModelAdmin):
+    list_filter = ('when_took',)
+    list_display = ('book', 'friend', 'when_took')
